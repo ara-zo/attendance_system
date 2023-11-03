@@ -1,5 +1,5 @@
 import 'package:attendance_system/constants/sizes.dart';
-import 'package:attendance_system/features/home/home_screen.dart';
+import 'package:attendance_system/features/login/login_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Attendance System',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Color(0xFFE9435A)),
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFFE9435A)),
         scaffoldBackgroundColor: Colors.white,
         appBarTheme: const AppBarTheme(
           foregroundColor: Colors.black,
@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: HomeScreen(),
+      home: const LoginScreen(),
     );
   }
 }
