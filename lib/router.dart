@@ -1,14 +1,15 @@
+import 'package:attendance_system/features/home/home_screen.dart';
 import 'package:attendance_system/features/join/join_screen.dart';
 import 'package:attendance_system/features/login/login_screen.dart';
 import 'package:go_router/go_router.dart';
 
-final GoRoute router = GoRouter(
+final router = GoRouter(
   initialLocation: '/',
   routes: [
     GoRoute(
       name: 'home',
-      path: '/',
-      builder: (context, state) => const LoginScreen(),
+      path: '/home',
+      builder: (context, state) => const HomeScreens(),
     ),
     GoRoute(
       name: 'join',
@@ -17,8 +18,8 @@ final GoRoute router = GoRouter(
     ),
     GoRoute(
       name: 'login',
-      path: '/login',
+      path: '/',
       builder: (context, state) => const LoginScreen(),
     ),
   ],
-) as GoRoute;
+);

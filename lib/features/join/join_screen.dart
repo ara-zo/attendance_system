@@ -20,7 +20,9 @@ class JoinScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('회원가입'),
+        title: const Text(
+          '회원가입',
+        ),
       ),
       body: SafeArea(
         child: Padding(

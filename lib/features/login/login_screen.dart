@@ -1,27 +1,37 @@
 import 'package:attendance_system/common/widgets/form_button.dart';
 import 'package:attendance_system/constants/sizes.dart';
-import 'package:attendance_system/features/join/join_screen.dart';
+import 'package:attendance_system/retrofit.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 import 'package:group_radio_button/group_radio_button.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<LoginScreen> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-  Map<String, String> formData = {};
-
-  final _status = ["PARENT", "SCHOOL"];
-  String _userType = "PARENT";
-
-  @override
   Widget build(BuildContext context) {
+    final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+    Map<String, String> formData = {};
+
+    final _status = ["PARENT", "SCHOOL"];
+    String _userType = "PARENT";
+
+    void _onSubmitTap() {
+      if (_formKey.currentState != null) {
+        if (_formKey.currentState!.validate()) {
+          // 텍스트 입력에 onSaved 콜백 함수를 실행
+          _formKey.currentState!.save();
+
+          // formData에 userType 저장
+          // formData['userType'] = _userType;
+
+          Retrofit().post('login', formData);
+        }
+      }
+    }
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -44,9 +54,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: RadioGroup<String>.builder(
                           direction: Axis.horizontal,
                           horizontalAlignment: MainAxisAlignment.spaceAround,
-                          onChanged: (value) => setState(() {
+                          onChanged: (value) => (p0) {
                             _userType = value ?? 'PARENT';
-                          }),
+                          },
                           activeColor: Colors.blue,
                           textStyle: const TextStyle(fontSize: Sizes.size16),
                           groupValue: _userType,
@@ -78,12 +88,13 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                         onSaved: (newValue) {
                           if (newValue != null) {
-                            formData['id'] = newValue;
+                            formData['username'] = newValue;
                           }
                         },
                       ),
                       const Gap(16.0),
                       TextFormField(
+                        obscureText: true,
                         decoration: InputDecoration(
                           hintText: 'Password',
                           enabledBorder: UnderlineInputBorder(
@@ -116,14 +127,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       const Gap(28.0),
                       GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const JoinScreen(),
-                            ),
-                          );
-                        },
+                        onTap: () => context.push('/join'),
                         child: const Text(
                           '회원가입',
                           style: TextStyle(
@@ -141,19 +145,5 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
-  }
-
-  void _onSubmitTap() {
-    if (_formKey.currentState != null) {
-      if (_formKey.currentState!.validate()) {
-        // 텍스트 입력에 onSaved 콜백 함수를 실행
-        _formKey.currentState!.save();
-
-        // formData에 userType 저장
-        formData['userType'] = _userType;
-
-        print(formData);
-      }
-    }
   }
 }
